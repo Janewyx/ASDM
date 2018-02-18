@@ -5,14 +5,12 @@
 ## Created as a part of GEM 599 proof of concept project by Jane Wang under the 
 ## supervision of Vivek Srivastava, Feb 16, 2018
 
-setwd("Users/jane/Documents/Caffeine/MGEM/GEM_599/AGM/data/")
-
 library(ggplot2)
 library(RColorBrewer) #map palette
 library(raster) #reading in and processing raster data
 library(rasterVis) #2D visualisation of raster
 
-## reading in all AGM distribution rasters
+## reading in all species distribution rasters
 ## modelled present distribution
 pres <- raster("spread_m/Canada_present1.tif")
 ## modelled distribution in future years under two climate scenarios
@@ -37,22 +35,42 @@ labellers <- function(variable,value){
   return(labs[value])
 }
 
+## scale bar specifications
+xmin <- xmin(s)
+xmax <- xmax(s)
+ymin <- ymin(s)
+ymax <- ymax(s)
+
 ## plotting distribution map for A1B scenario
-gplot(s[[1:5]]) +
+A1B_plot <- gplot(s[[1:5]]) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   facet_wrap(~variable, labeller = labellers) +
   coord_equal() +
   scale_fill_manual(values = pal,
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for AGM\nDistribution(A1B)") +
-  theme_void()
+                    name = "Potential for species Distribution (A1B)") +
+  # ggsn::scalebar(x.min = xmin, x.max = xmax, y.min = ymin, y.max = ymax, dist = 5000,
+                 # facet.var = "variable") +
+  theme_void() +
+  theme(legend.direction = "horizontal",
+        legend.position = "bottom")
+plot(A1B_plot)
+# A1B_map <- A1B_plot +
+  # scalebar(data = s[[1:5]], dist = 1000)
 
 ## plotting distribution map for A2 scenario
-gplot(s[[6:10]]) +
+A2_plot <- gplot(s[[6:10]]) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   facet_wrap(~variable, labeller = labellers) +
   coord_equal() +
   scale_fill_manual(values = pal,
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for AGM\nDistribution(A2)") +
-  theme_void()
+                    name = "Potential for species Distribution (A2)") +
+  theme_void() +
+  theme(text = element_text(size = 12),
+        legend.direction = "horizontal",
+        legend.position = "bottom")
+plot(A2_plot)
+
+ggsave("spread_m/plots/A1B_plot.png", A1B_plot, width = 10, height = 6)
+ggsave("spread_m/plots/A2_plot.png", A2_plot, width = 10, height = 6)
