@@ -1,9 +1,4 @@
-## Code for modelling the distribution and spread of forest invasive species 
-## with pre-processed species distribution data from Vivek Srivastava for the
-## present period, 2030, 2050, 2070, 2090, and 2100 under climate scenarios A1B 
-## and A2 in Canada.
-## Created as a part of GEM 599 proof of concept project by Jane Wang under the 
-## supervision of Vivek Srivastava, Feb 16, 2018
+## Code for species distribution map visualisations
 
 library(ggplot2)
 library(RColorBrewer) #map palette
