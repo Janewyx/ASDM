@@ -9,6 +9,7 @@ library(ggplot2)
 library(RColorBrewer) #map palette
 library(raster) #reading in and processing raster data
 library(rasterVis) #2D visualisation of raster
+library(ggsn) #scale bar and north arrow on map
 
 ## reading in all species distribution rasters
 ## modelled present distribution
@@ -41,6 +42,22 @@ xmax <- xmax(s)
 ymin <- ymin(s)
 ymax <- ymax(s)
 
+## plotting current distribution
+pres_plot <- gplot(pres) +
+  geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
+  scale_fill_manual(values = pal,
+                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
+                    name = "Potential for Species Distribution (A1B)") +
+  scalebar(x.min = xmin + 6, x.max = xmax, y.min = ymin, y.max = ymax, 
+           dist = 500, dd2km = TRUE, model = "GRS80", st.size=2.5,
+           height=0.015, location = "bottomleft") +
+  north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 4, 
+        location = "bottomleft", scale = 0.06) +
+  theme_void() +
+  theme(legend.direction = "horizontal",
+        legend.position = "bottom")
+plot(pres_plot)
+
 ## plotting distribution map for A1B scenario
 A1B_plot <- gplot(s[[1:5]]) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
@@ -48,15 +65,14 @@ A1B_plot <- gplot(s[[1:5]]) +
   coord_equal() +
   scale_fill_manual(values = pal,
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for species Distribution (A1B)") +
-  # ggsn::scalebar(x.min = xmin, x.max = xmax, y.min = ymin, y.max = ymax, dist = 5000,
-                 # facet.var = "variable") +
+                    name = "Potential for Species Distribution (A1B)") +
   theme_void() +
   theme(legend.direction = "horizontal",
         legend.position = "bottom")
 plot(A1B_plot)
 # A1B_map <- A1B_plot +
   # scalebar(data = s[[1:5]], dist = 1000)
+
 
 ## plotting distribution map for A2 scenario
 A2_plot <- gplot(s[[6:10]]) +
@@ -65,12 +81,13 @@ A2_plot <- gplot(s[[6:10]]) +
   coord_equal() +
   scale_fill_manual(values = pal,
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for species Distribution (A2)") +
+                    name = "Potential for Species Distribution (A2)") +
   theme_void() +
   theme(text = element_text(size = 12),
         legend.direction = "horizontal",
         legend.position = "bottom")
 plot(A2_plot)
 
+ggsave("spread_m/plots/pres_plot.png", pres_plot, width = 10, height = 6)
 ggsave("spread_m/plots/A1B_plot.png", A1B_plot, width = 10, height = 6)
 ggsave("spread_m/plots/A2_plot.png", A2_plot, width = 10, height = 6)
