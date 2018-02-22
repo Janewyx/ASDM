@@ -83,9 +83,9 @@ write.csv(treebar_df, "treebar_df.csv")
 ################# MIGCLIM MODELLING ##################
 ######################################################
 MigClim.migrate(iniDist = A1B_df[, 1:3], hsMap = A1B_df[,4:8], envChgSteps = 5, dispSteps = 1, 
-                barrier = treebar_df, simulName = "A1B_MigClimTest", overWrite = TRUE)
+                simulName = "A1B_MigClimTest", overWrite = TRUE)
 MigClim.migrate(iniDist = A2_df[, 1:3], hsMap = A1B_df[,4:8], envChgSteps = 5, dispSteps = 1, 
-                barrier = treebar_df, simulName = "A2_MigClimTest", overWrite = TRUE)
+                simulName = "A2_MigClimTest", overWrite = TRUE)
 
 # MigClim.migrate(iniDist = "inidist.asc", hsMap = "hsMap", envChgSteps = 5, dispSteps = 1, overWrite = TRUE)
 
