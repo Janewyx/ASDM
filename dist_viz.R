@@ -49,7 +49,10 @@ pres_plot <- gplot(pres) +
   north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 4, 
         location = "bottomleft", scale = 0.06) +
   theme_void() +
-  theme(legend.direction = "horizontal",
+  theme(text = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.direction = "horizontal",
         legend.position = "bottom")
 plot(pres_plot)
 
@@ -62,7 +65,10 @@ A1B_plot <- gplot(s[[1:5]]) +
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
                     name = "Potential for Species Distribution (A1B)") +
   theme_void() +
-  theme(legend.direction = "horizontal",
+  theme(text = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.direction = "horizontal",
         legend.position = "bottom")
 plot(A1B_plot)
 # A1B_map <- A1B_plot +
@@ -79,7 +85,9 @@ A2_plot <- gplot(s[[6:10]]) +
                     name = "Potential for Species Distribution (A2)") +
   theme_void() +
   theme(text = element_text(size = 12),
+        strip.text = element_text(size = 12),
         legend.direction = "horizontal",
+        legend.text = element_text(size = 12),
         legend.position = "bottom")
 plot(A2_plot)
 
