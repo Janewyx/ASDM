@@ -14,7 +14,7 @@ treed_20 <- raster("Can_VegTreed_20.tif")
 dem <- raster("canada_dem.asc")
 
 ## reading in species distribution data for present and future scenarios
-pres <- raster("spread_m/Canada_present1.tif")
+pres <- raster("Canada/Present/Asian_gypsy_moth_0_Canada2010.asc")
 rlist=list.files(pattern="asc")
 for(i in rlist) { 
   assign(unlist(strsplit(i, "[.]"))[1], raster(i)) 
@@ -26,6 +26,10 @@ A2 <- stack(rlist[6:10])
 
 ## changing the projection to WGS 84
 treed_20 <- projectRaster(treed_20, crs = "+init=epsg:4326", res = res(pres), method = "bilinear")
+crs(dem) <- crs("+init=epsg:4326")
+crs(pres) <-crs("+init=epsg:4326")
+crs(A1B) <- crs("+init=epsg:4326")
+crs(A2) <- crs("+init=epsg:4326")
 
 ## resampling allows two raster to merge, but still can't join the dataframes of the rasters
 resample(pres, treed_20)
@@ -42,7 +46,7 @@ resample(pres, treed_20)
 ######################################################
 
 ## present distribution classified into 0 and 1
-iniDist <- reclassify(pres, c(0,1,0, 1,4,1))
+iniDist <- reclassify(pres, c(0,0.25,0, 0.25,1,1))
 plot(iniDist)
 
 ## converting raster files to dataframe for modelling input
