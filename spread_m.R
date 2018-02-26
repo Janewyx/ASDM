@@ -12,6 +12,8 @@ library(raster)
 # treed <- raster("canadawide_forest/land_cover/NFI_MODIS250m_kNN_LandCover_VegTreed_v0.tif")
 treed_20 <- raster("Can_VegTreed_20.tif")
 dem <- raster("canada_dem.asc")
+temp_A1B <- raster("bio06_A1B_2030.asc")
+temp_A2 <- raster("bio06_A2_2030.asc")
 
 ## reading in species distribution data for present and future scenarios
 pres <- raster("Canada/Present/Asian_gypsy_moth_0_Canada2010.asc")
@@ -24,12 +26,14 @@ for(i in rlist) {
 A1B <- stack(rlist[1:5])
 A2 <- stack(rlist[6:10])
 
-## changing the projection to WGS 84
+## changing the projection to WGS84
 treed_20 <- projectRaster(treed_20, crs = "+init=epsg:4326", res = res(pres), method = "bilinear")
 crs(dem) <- crs("+init=epsg:4326")
 crs(pres) <-crs("+init=epsg:4326")
 crs(A1B) <- crs("+init=epsg:4326")
 crs(A2) <- crs("+init=epsg:4326")
+crs(temp_A1B) <- crs("+init=epsg:4326")
+crs(temp_A2) <- crs("+init=epsg:4326")
 
 ## resampling allows two raster to merge, but still can't join the dataframes of the rasters
 resample(pres, treed_20)
@@ -60,27 +64,35 @@ A2Dist <- round(A2*1000,0)
 b <- rasterToPoints(A1BDist)
 c <- rasterToPoints(A2Dist)
 
-## reclassifying values in treed raster wtih 1 indicating barrier (forest coverage <5%) 
-## and 0 indicating non-barrier (forest coverage >5%).
+## reclassifying values into 1 (barrier) and 0 (not barrier) to create barrier files
 tree_bar <- reclassify(treed_20, c(0,5,1, 5,100,0))
-
-## reclassifying values in dem raster into 1 (>200m) and 0 (<200m)
-dem_bar <- reclassify(dem, c(0,1000,0, 1000,6000,1))
+dem_bar <- reclassify(dem, c(0,2000,0, 2000,6000,1))
+temp_A1B_bar <- reclassify(temp_A1B, c(-50,-29,1, -29,10,0))
+temp_A2_bar <- reclassify(temp_A2, c(-50,-29,1, -29,10,0))
 
 ## converting rasters to dataframes 
 treebar_df <- rasterToPoints(tree_bar)
 dem_df <- rasterToPoints(dem_bar)
 dem_df <- as.data.frame(dem_df)
+temp_A1B_df <- rasterToPoints(temp_A1B_bar)
+temp_A1B_df <- as.data.frame(temp_A1B_df)
+temp_A2_df <- rasterToPoints(temp_A2_bar)
+temp_A2_df <- as.data.frame(temp_A2_df)
 names(dem_df) <- c("x", "y", "dem_bar")
+names(temp_A1B_df) <- c("x", "y", "temp_bar")
+names(temp_A2_df) <- c("x", "y", "temp_bar")
 
 ## merging all dataframes
 A1B_df <- merge(a, b)
 A1B_df <- merge(A1B_df, dem_df)
+A1B_df <- merge(A1B_df, temp_A1B_df)
 A2_df <- merge(a, c)
 A2_df <- merge(A2_df, dem_df)
+A2_df <- merge(A2_df, temp_A2_df)
 
-names(A1B_df) <- c("Xcoordinate", "Ycoordinate", "iniDist", "A1Bhs1", "A1Bhs2", "A1Bhs3", "A1Bhs4", "A1Bhs5", "dem_bar")
-names(A2_df) <- c("Xcoordinate", "Ycoordinate", "iniDist", "A2hs1", "A2hs2", "A2hs3", "A2hs4", "A2hs5", "dem_bar")
+
+names(A1B_df) <- c("Xcoordinate", "Ycoordinate", "iniDist", "A1Bhs1", "A1Bhs2", "A1Bhs3", "A1Bhs4", "A1Bhs5", "dem_bar", "temp_bar")
+names(A2_df) <- c("Xcoordinate", "Ycoordinate", "iniDist", "A2hs1", "A2hs2", "A2hs3", "A2hs4", "A2hs5", "dem_bar", "temp_bar")
 
 ## outputting dataframes
 write.csv(A1B_df, "A1B_df.csv")
