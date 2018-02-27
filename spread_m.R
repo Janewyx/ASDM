@@ -16,7 +16,7 @@ temp_A1B <- raster("bio06_A1B_2030.asc")
 temp_A2 <- raster("bio06_A2_2030.asc")
 
 ## reading in species distribution data for present and future scenarios
-pres <- raster("Canada/Present/Asian_gypsy_moth_0_Canada2010.asc")
+pres <- raster("Canada2010.asc")
 rlist=list.files(pattern="asc")
 for(i in rlist) { 
   assign(unlist(strsplit(i, "[.]"))[1], raster(i)) 
