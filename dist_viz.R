@@ -20,12 +20,17 @@ for(i in rlist) {
   assign(unlist(strsplit(i, "[.]"))[1], raster(i)) 
   } 
 
+
 ## getting raster information from present map layer
 pres
 ratify(pres)
 
 ## creating a raster stack for plotting
 s <- stack(rlist)
+
+## using WGS84 projection
+crs(pres) <- crs("+init=epsg:4326")
+crs(s) <- crs("+init=epsg:4326")
 
 ## extracting colours from http://colorbrewer2.org/
 pal <- brewer.pal(5, "RdYlGn")[4:1]
@@ -49,19 +54,21 @@ risk_long <- melt(risk, id.var = "Risk", variable.name = "Time", value.name = "C
 pres_plot <- gplot(pres) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   scale_fill_manual(values = pal,
-                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for Species Distribution (A1B)") +
-  scalebar(x.min = xmin + 6, x.max = xmax, y.min = ymin, y.max = ymax, 
-           dist = 500, dd2km = TRUE, model = "GRS80", st.size=2.5,
-           height=0.015, location = "bottomleft") +
+                    # name = "Potential for Species Distribution (A1B)",
+                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", "")) +
+  scalebar(x.min = xmin + 6, x.max = xmax+6, y.min = ymin+5, y.max = ymax, 
+           dist = 500, dd2km = TRUE, model = "WGS84", st.size=2.5,
+           height=0.015, location = "bottomright") +
   north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 4, 
-        location = "bottomleft", scale = 0.06) +
+        location = "topright", scale = 0.06) +
   theme_void() +
   theme(text = element_text(size = 12),
         strip.text = element_text(size = 12),
         legend.text = element_text(size = 12),
-        legend.direction = "horizontal",
-        legend.position = "bottom")
+        legend.title = element_blank(),
+        # legend.direction = "horizontal",
+        # legend.position = "bottom"
+        )
 plot(pres_plot)
 
 ## plotting distribution map for A1B scenario
