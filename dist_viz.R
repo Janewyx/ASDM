@@ -1,6 +1,5 @@
 ## Code for species distribution map visualisations
 
-library(tidyverse) #formatting and plotting data
 library(reshape2) #table to long format
 library(ggplot2) #plotting
 library(RColorBrewer) #map palette
@@ -57,10 +56,10 @@ pres_plot <- gplot(pres) +
                     # name = "Potential for Species Distribution (A1B)",
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", "")) +
   scalebar(x.min = xmin + 6, x.max = xmax+6, y.min = ymin+5, y.max = ymax, 
-           dist = 500, dd2km = TRUE, model = "WGS84", st.size=2.5,
-           height=0.015, location = "bottomright") +
+           dist = 500, dd2km = TRUE, model = "WGS84", st.size=4,
+           height=0.015, location = "bottomleft") +
   north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 4, 
-        location = "topright", scale = 0.06) +
+        location = "topleft", scale = 0.06) +
   theme_void() +
   theme(text = element_text(size = 12),
         strip.text = element_text(size = 12),
@@ -77,14 +76,16 @@ A1B_plot <- gplot(s[[1:5]]) +
   facet_wrap(~variable, labeller = labellers) +
   coord_equal() +
   scale_fill_manual(values = pal,
-                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for Species Distribution (A1B)") +
+                    # name = "Potential for Species Distribution (A1B)",
+                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", "")) +
   theme_void() +
   theme(text = element_text(size = 12),
         strip.text = element_text(size = 12),
         legend.text = element_text(size = 12),
-        legend.direction = "horizontal",
-        legend.position = "bottom")
+        legend.title = element_blank(),
+        # legend.direction = "horizontal",
+        # legend.position = "bottom"
+        )
 plot(A1B_plot)
 # A1B_map <- A1B_plot +
   # scalebar(data = s[[1:5]], dist = 1000)
