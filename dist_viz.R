@@ -17,7 +17,7 @@ pres <- raster("spread_m/Canada_present1.tif")
 rlist=list.files(path = "spread_m/", pattern="tif")
 for(i in rlist) { 
   assign(unlist(strsplit(i, "[.]"))[1], raster(i)) 
-  } 
+} 
 
 
 ## getting raster information from present map layer
@@ -67,7 +67,7 @@ pres_plot <- gplot(pres) +
         legend.title = element_blank(),
         # legend.direction = "horizontal",
         # legend.position = "bottom"
-        )
+  )
 plot(pres_plot)
 
 ## plotting distribution map for A1B scenario
@@ -85,10 +85,10 @@ A1B_plot <- gplot(s[[1:5]]) +
         legend.title = element_blank(),
         # legend.direction = "horizontal",
         # legend.position = "bottom"
-        )
+  )
 plot(A1B_plot)
 # A1B_map <- A1B_plot +
-  # scalebar(data = s[[1:5]], dist = 1000)
+# scalebar(data = s[[1:5]], dist = 1000)
 
 
 ## plotting distribution map for A2 scenario
