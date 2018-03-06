@@ -102,9 +102,9 @@ write.csv(A2_df, "A2_df.csv")
 ################# MIGCLIM MODELLING ##################
 ######################################################
 MigClim.migrate(iniDist = A1B_df[, 1:3], hsMap = A1B_df[,4:8], rcThreshold = 500, envChgSteps = 5, 
-                dispSteps=5, barrier = A1B_df[, 9], simulName = "A1B_MigClimTest", overWrite = TRUE)
+                dispSteps=18, barrier = A1B_df[, 9], simulName = "A1B_MigClimTest", overWrite = TRUE)
 MigClim.migrate(iniDist = A2_df[, 1:3], hsMap = A2_df[,4:8], rcThreshold = 500, envChgSteps = 5, 
-                dispSteps = 5, barrier = A2_df[, 9], simulName = "A2_MigClimTest", overWrite = TRUE)
+                dispSteps = 18, barrier = A2_df[, 9], simulName = "A2_MigClimTest", overWrite = TRUE)
 
 ## taking a look at dispersal model output rasters
 plot(raster("A1B_MigClimTest/A1B_MigClimTest_raster.asc"))
