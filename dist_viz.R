@@ -55,16 +55,15 @@ pres_plot <- gplot(pres) +
   scale_fill_manual(values = pal,
                     # name = "Potential for Species Distribution (A1B)",
                     labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", "")) +
-  scalebar(x.min = xmin + 6, x.max = xmax+6, y.min = ymin+5, y.max = ymax, 
-           dist = 500, dd2km = TRUE, model = "WGS84", st.size=4,
-           height=0.015, location = "bottomleft") +
+  scalebar(x.min = xmin, x.max = xmax, y.min = ymin+5, y.max = ymax, anchor = c(x=-105, y=45),
+           dist = 500, dd2km = TRUE, model = "WGS84", st.size=4, height=0.015, location = "bottomleft") +
   north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 4, 
-        location = "topleft", scale = 0.06) +
+        location = "topright", scale = 0.06) +
   theme_void() +
   theme(text = element_text(size = 12),
         strip.text = element_text(size = 12),
         legend.text = element_text(size = 12),
-        legend.title = element_blank(),
+        legend.title = element_blank()
         # legend.direction = "horizontal",
         # legend.position = "bottom"
   )
@@ -83,12 +82,10 @@ A1B_plot <- gplot(s[[1:5]]) +
         strip.text = element_text(size = 12),
         legend.text = element_text(size = 12),
         legend.title = element_blank(),
-        # legend.direction = "horizontal",
-        # legend.position = "bottom"
+        legend.direction = "horizontal",
+        legend.position = "bottom"
   )
 plot(A1B_plot)
-# A1B_map <- A1B_plot +
-# scalebar(data = s[[1:5]], dist = 1000)
 
 
 ## plotting distribution map for A2 scenario
@@ -113,6 +110,6 @@ risk_plot <- ggplot(risk_long, aes(Risk, Count, group = Time, colour = Time)) +
   scale_y_log10()
 plot(risk_plot)
 
-ggsave("spread_m/plots/pres_plot.png", pres_plot, width = 10, height = 6)
-ggsave("spread_m/plots/A1B_plot.png", A1B_plot, width = 10, height = 6)
-ggsave("spread_m/plots/A2_plot.png", A2_plot, width = 10, height = 6)
+ggsave("spread_m/plots/pres_plot.tiff", pres_plot, width = 10, height = 6)
+ggsave("spread_m/plots/A1B_plot.tiff", A1B_plot, width = 10, height = 6)
+ggsave("spread_m/plots/A2_plot.tiff", A2_plot, width = 10, height = 6)
