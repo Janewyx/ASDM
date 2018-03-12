@@ -37,7 +37,7 @@ pal_occ <- c("black", "#999999", rev(brewer.pal(6, "Accent"))[1], rev(brewer.pal
 A1Bcol_1 <- gplot(A1Bcol) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   scale_fill_manual(values = pal_col, name = "Potential for Species dispersion (A1B)",
-                    labels = c("Once occupied", "Not occupied", "Currently occupied",  "Colonised from 2050", 
+                    labels = c("No longer suitable", "Not occupied", "Currently occupied",  "Colonised from 2050", 
                                "Colonised from 2070", "Colonised from 2090", "Colonised from 2100", "Potential colonies", "")) +
   coord_cartesian(xlim = c(-94, -50), ylim = c(37, 65)) +
   scalebar(x.min = -83, x.max = -50, y.min = 39, y.max = 65,
@@ -54,7 +54,7 @@ plot(A1Bcol_1)
 A2col_1 <- gplot(A2col) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   scale_fill_manual(values = pal_col, name = "Potential for Species dispersion (A2)",
-                   labels = c("Once occupied", "Not occupied", "Currently occupied",  "Colonised from 2050",
+                   labels = c("No longer suitable", "Not occupied", "Currently occupied",  "Colonised from 2050",
                               "Colonised from 2070", "Colonised from 2090", "Colonised from 2100", "Potential colonies", "")) +
   coord_cartesian(xlim = c(-94, -50), ylim = c(37, 65)) +
   scalebar(x.min = -83, x.max = -50, y.min = 39, y.max = 65,
@@ -92,7 +92,7 @@ plot(A2col_plot)
 A1Bocc_plot <- gplot(A1Bocc) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   scale_fill_manual(values = pal_occ, name = "Potential for Species dispersion (A1B)",
-                    labels = c("Not occupied", "Occupied during simulation", "Currently occupied",  "Occupied in 2030", 
+                    labels = c("Not occupied", "Colonised during simulation", "Currently occupied",  "Occupied in 2030", 
                               "Occupied in 2050", "Occupied in 2070", "Occupied in 2090", "Occupied in 2100", "Potential colonies", "")) +
   scalebar(x.min = xmin, x.max = xmax, y.min = ymin+5, y.max = ymax, anchor = c(x=-105, y=45),
            dist = 500, dd2km = TRUE, model = "WGS84", st.size=4, height=0.015, location = "bottomleft") +
@@ -108,7 +108,7 @@ plot(A1Bocc_plot)
 A2occ_plot <- gplot(A2occ) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   scale_fill_manual(values = pal_occ, name = "Potential for Species dispersion (A2)",
-                    labels = c("Not occupied", "Occupied during simulation", "Currently occupied",  "Occupied in 2030", 
+                    labels = c("Not occupied", "Colonised during simulation", "Currently occupied",  "Occupied in 2030", 
                                "Occupied in 2050", "Occupied in 2070", "Occupied in 2090", "Occupied in 2100", "Potential colonies", "")) +
   scalebar(x.min = xmin, x.max = xmax, y.min = ymin+5, y.max = ymax, anchor = c(x=-105, y=45),
            dist = 500, dd2km = TRUE, model = "WGS84", st.size=4, height=0.015, location = "bottomleft") +
