@@ -94,8 +94,8 @@ A2_plot <- gplot(s[[6:10]]) +
   facet_wrap(~variable, labeller = labellers) +
   coord_equal() +
   scale_fill_manual(values = pal,
-                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", ""), 
-                    name = "Potential for Species Distribution (A2)") +
+                    # name = "Potential for Species Distribution (A2)",
+                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", "")) +
   theme_void() +
   theme(text = element_text(size = 12),
         strip.text = element_text(size = 12),

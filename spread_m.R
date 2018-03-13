@@ -2,6 +2,9 @@
 
 library(MigClim)
 library(raster)
+library(ggplot2)
+library(rasterVis)
+library(ggsn)
 
 ######################################################
 ################### lOADING DATA #####################
@@ -69,6 +72,45 @@ tree_bar <- reclassify(treed_20, c(0,5,1, 5,100,0))
 dem_bar <- reclassify(dem, c(0,2000,0, 2000,6000,1))
 temp_A1B_bar <- reclassify(temp_A1B, c(-50,-29,1, -29,10,0))
 temp_A2_bar <- reclassify(temp_A2, c(-50,-29,1, -29,10,0))
+
+## outputting barrier graphs
+xmin <- xmin(pres)
+xmax <- xmax(pres)
+ymin <- ymin(pres)
+ymax <- ymax(pres)
+
+dem_plot <- gplot(dem_bar) +
+  geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
+  scale_fill_manual(values = c("grey90", "#fc8d59"),labels = c("No barrier", "Elevation Barrier", "")) +
+  scalebar(x.min = xmin, x.max = xmax, y.min = ymin+5, y.max = ymax, anchor = c(x=-105, y=45),
+           dist = 500, dd2km = TRUE, model = "WGS84", st.size=4, height=0.015, location = "bottomleft") +
+  north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 12,
+        location = "topright", scale = 0.06) +
+  theme_void() +
+  theme(text = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.title = element_blank())
+plot(dem_plot)
+
+temp_plot <- gplot(temp_A1B_bar) +
+  geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
+  scale_fill_manual(values = c("grey90", "#fc8d59"),labels = c("No barrier", "Temperature Barrier", "")) +
+  scalebar(x.min = xmin, x.max = xmax, y.min = ymin+5, y.max = ymax, anchor = c(x=-105, y=45),
+           dist = 500, dd2km = TRUE, model = "WGS84", st.size=4, height=0.015, location = "bottomleft") +
+  north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 12,
+        location = "topright", scale = 0.06) +
+  theme_void() +
+  theme(text = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.title = element_blank())
+plot(temp_plot)
+
+ggsave("spread_m/plots/DEM_barrier.png", dem_plot, width = 10, height = 6)
+ggsave("spread_m/plots/temp_plot.png", temp_plot, width = 10, height = 6)
+
+
 
 ## converting rasters to dataframes 
 treebar_df <- rasterToPoints(tree_bar)
