@@ -53,8 +53,8 @@ risk_long <- melt(risk, id.var = "Risk", variable.name = "Time", value.name = "C
 pres_plot <- gplot(pres) +
   geom_raster(aes(fill = factor(value)), na.rm = TRUE) +
   scale_fill_manual(values = pal,
-                    # name = "Potential for Species Distribution (A1B)",
-                    labels = c("No Risk", "Low Risk", "Moderate Risk", "High Risk", "")) +
+                    name = "Distribution Likelihood",
+                    labels = c("None", "Low", "Moderate", "High", "")) +
   scalebar(x.min = xmin, x.max = xmax, y.min = ymin+5, y.max = ymax, anchor = c(x=-105, y=45),
            dist = 500, dd2km = TRUE, model = "WGS84", st.size=4, height=0.015, location = "bottomleft") +
   north(x.min = xmin, x.max = xmax, y.min = ymin - 1, y.max = ymax, symbol = 4, 
@@ -62,8 +62,7 @@ pres_plot <- gplot(pres) +
   theme_void() +
   theme(text = element_text(size = 12),
         strip.text = element_text(size = 12),
-        legend.text = element_text(size = 12),
-        legend.title = element_blank()
+        legend.text = element_text(size = 12)
         # legend.direction = "horizontal",
         # legend.position = "bottom"
   )
@@ -110,6 +109,6 @@ risk_plot <- ggplot(risk_long, aes(Risk, Count, group = Time, colour = Time)) +
   scale_y_log10()
 plot(risk_plot)
 
-ggsave("spread_m/plots/pres_plot.tiff", pres_plot, width = 10, height = 6)
-ggsave("spread_m/plots/A1B_plot.tiff", A1B_plot, width = 10, height = 6)
-ggsave("spread_m/plots/A2_plot.tiff", A2_plot, width = 10, height = 6)
+ggsave("spread_m/plots/pres_plot.png", pres_plot, width = 10, height = 6)
+ggsave("spread_m/plots/A1B_plot.png", A1B_plot, width = 10, height = 6)
+ggsave("spread_m/plots/A2_plot.png", A2_plot, width = 10, height = 6)
