@@ -47,7 +47,9 @@ ymin <- ymin(s)
 ymax <- ymax(s)
 
 ## converting .csv table to long format
-risk_long <- melt(risk, id.var = "Risk", variable.name = "Time", value.name = "Count")
+risk_long <- melt(risk, id.var = c("Risk","Scenario"), variable.name = "Time", value.name = "Count")
+risk_long$Time <- gsub("X", "", risk_long$Time)
+risk_long$Time <- as.numeric(risk_long$Time)
 
 ## plotting current distribution
 pres_plot <- gplot(pres) +
@@ -104,9 +106,10 @@ A2_plot <- gplot(s[[6:10]]) +
 plot(A2_plot)
 
 ## plotting risk category visualisation
-risk_plot <- ggplot(risk_long, aes(Risk, Count, group = Time, colour = Time)) +
-  geom_line() +
-  scale_y_log10()
+risk_plot <- ggplot(risk_long, aes(Time, Risk, group = Time, colour = Risk)) +
+  geom_point(aes(size = Count)) +
+  scale_y_log10() +
+  theme_minimal()
 plot(risk_plot)
 
 ggsave("spread_m/plots/pres_plot.png", pres_plot, width = 10, height = 6)
