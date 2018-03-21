@@ -68,7 +68,7 @@ plot(dembarplot)
 
 tempbarplot <- gplot(temp_bar) +
   geom_raster(aes(fill = value), na.rm = TRUE) +
-  scale_fill_gradient(high = "white", low = "#7fc97f", guide = FALSE, na.value = "transparent") +
+  scale_fill_gradient(high = "white", low = "#386cb0", guide = FALSE, na.value = "transparent") +
   theme_void() +
   theme(panel.background = element_rect(fill = "black"))
 plot(tempbarplot)
@@ -81,5 +81,5 @@ hsplot <- gplot(hs) +
 plot(hsplot)
 
 ggsave("spread_m/plots/dembarplot.png", dembarplot, width = 4, height = 3)
-ggsave("spread_m/plots/dembarplot.png", dembarplot, width = 4, height = 3)
+ggsave("spread_m/plots/tempbarplot.png", tempbarplot, width = 4, height = 3)
 ggsave("spread_m/plots/hsplot.png", hsplot, width = 4, height = 3)
