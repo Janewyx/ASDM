@@ -55,6 +55,7 @@ resample(pres, treed_20)
 ## present distribution classified into 0 and 1
 iniDist <- reclassify(pres, c(0,0.25,0, 0.25,1,1))
 plot(iniDist)
+writeRaster(iniDist, "iniDist.asc")
 
 ## converting raster files to dataframe for modelling input
 a <- rasterToPoints(iniDist)
@@ -72,6 +73,9 @@ tree_bar <- reclassify(treed_20, c(0,5,1, 5,100,0))
 dem_bar <- reclassify(dem, c(0,2000,0, 2000,6000,1))
 temp_A1B_bar <- reclassify(temp_A1B, c(-50,-29,1, -29,10,0))
 temp_A2_bar <- reclassify(temp_A2, c(-50,-29,1, -29,10,0))
+
+writeRaster(dem_bar, "dembar.asc")
+writeRaster(temp_A1B_bar, "tempbar.asc")
 
 ## outputting barrier graphs
 xmin <- xmin(pres)
