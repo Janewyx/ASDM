@@ -106,12 +106,27 @@ A2_plot <- gplot(s[[6:10]]) +
 plot(A2_plot)
 
 ## plotting risk category visualisation
-risk_plot <- ggplot(risk_long, aes(Time, Risk, group = Time, colour = Risk)) +
-  geom_point(aes(size = Count)) +
-  scale_y_log10() +
-  theme_minimal()
+risk_plot <- ggplot(risk_long, aes(Time, Count, group = Time, colour = Scenario)) +
+  geom_point(aes(size = Risk), alpha = 0.8) +
+  scale_color_manual(values = c("#7fc97f", "#ffff99")) +
+  scale_x_continuous(breaks = c(2010, 2030, 2050, 2070, 2090, 2100),
+                     labels = c("Present", 2030, 2050, 2070, 2090, 2100)) +
+  scale_size_continuous(breaks = c(1, 25, 50, 75), 
+                        labels = c("None", "Low", "Moderate", "High")) +
+  guides(size = guide_legend(override.aes = list(colour="grey80", alpha = 1))) +
+  xlab("") +
+  ylab("Cell Count") +
+  scale_y_log10(limits = c(70, 60000), breaks = c(100, 1000, 10000, 60000)) +
+  labs(size = "Likelihood") +
+  theme_minimal() +
+  theme(panel.grid.major = element_line(colour = "grey40"), 
+        panel.grid.minor = element_blank(),
+        text = element_text(size = 10, colour = "grey80"), 
+        axis.text = element_text(size = 10,  colour = "grey80"),
+        panel.background = element_rect(fill = "transparent"))
 plot(risk_plot)
 
 ggsave("spread_m/plots/pres_plot.png", pres_plot, width = 10, height = 6)
 ggsave("spread_m/plots/A1B_plot.png", A1B_plot, width = 10, height = 6)
 ggsave("spread_m/plots/A2_plot.png", A2_plot, width = 10, height = 6)
+ggsave("Spread_m/plots/riskplot.pdf", risk_plot, width = 6, height = 3)
