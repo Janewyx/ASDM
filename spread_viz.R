@@ -20,6 +20,10 @@ A1Bocc <- reclassify(A1Bdisp, c(-600,-500,500, -499,-400,400, -399,-300,300, -29
 A2occ <- reclassify(A2disp, c(-600,-500,500, -499,-400,400, -399,-300,300, -299,-200,200, -199,-100,100,
                                 100,600,0.5))
 Canada <- reclassify(A1Bdisp, c(-600,30000,0))
+
+writeRaster(A1Bcol, "A1Bcol.asc")
+writeRaster(A2col, "A2col.asc")
+
 ## scale bar specifications
 xmin <- xmin(A1Bcol)
 xmax <- xmax(A1Bcol)
